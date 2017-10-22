@@ -13,13 +13,14 @@ RUN google-cloud-sdk/install.sh --usage-reporting=true --path-update=true --bash
 # Disable updater check for the whole installation.
 # Users won't be bugged with notifications to update to the latest version of gcloud.
 RUN google-cloud-sdk/bin/gcloud config set --installation component_manager/disable_update_check true
+RUN google-cloud-sdk/bin/gcloud components install kubectl
 
 # Install Helm
 ENV VERSION v2.6.2
-ENV FILENAME helm-${VERSION}-linux-amd64.tar.gz
+ENV FILENAME helm-${VERSION}-linux-arm.tar.gz
 ENV HELM_URL https://storage.googleapis.com/kubernetes-helm/${FILENAME}
 
 RUN curl -o /tmp/$FILENAME ${HELM_URL} \
   && tar -zxvf /tmp/${FILENAME} -C /tmp \
-  && mv /tmp/linux-amd64/helm /bin/helm \
+  && mv /tmp/linux-arm/helm /bin/helm \
   && rm -rf /tmp
